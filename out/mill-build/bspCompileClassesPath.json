@@ -1,0 +1,11 @@
+{
+    "value": {
+        "$type": "mill.scalalib.UnresolvedPath.DestPath",
+        "subPath": "classes",
+        "segments": [
+            "compile"
+        ]
+    },
+    "valueHash": 1728952806,
+    "inputsHash": 713234548
+}

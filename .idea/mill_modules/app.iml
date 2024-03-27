@@ -1,0 +1,35 @@
+<module type="JAVA_MODULE" version="4">
+    <component name="NewModuleRootManager">
+        <output url="file://$MODULE_DIR$/../../out/app/ideaCompileOutput.dest/classes"/>
+        <exclude-output/>
+        <content url="file://$MODULE_DIR$/../../app">
+            <sourceFolder url="file://$MODULE_DIR$/../../app/src" isTestSource="false"/>
+            <sourceFolder url="file://$MODULE_DIR$/../../app/resources" type="java-resource"/>
+        </content>
+        <orderEntry type="inheritedJdk"/>
+        <orderEntry type="sourceFolder" forTests="false"/>
+        <orderEntry type="library" name="Java-WebSocket-1.5.3.jar" level="project"/>
+        <orderEntry type="library" name="cask-util_2.13-0.9.2.jar" level="project"/>
+        <orderEntry type="library" name="cask_2.13-0.9.2.jar" level="project"/>
+        <orderEntry type="library" name="castor_2.13-0.3.0.jar" level="project"/>
+        <orderEntry type="library" name="fansi_2.13-0.4.0.jar" level="project"/>
+        <orderEntry type="library" name="geny_2.13-1.0.0.jar" level="project"/>
+        <orderEntry type="library" name="jboss-logging-3.4.3.Final.jar" level="project"/>
+        <orderEntry type="library" name="jboss-threads-3.5.0.Final.jar" level="project"/>
+        <orderEntry type="library" name="pprint_2.13-0.8.1.jar" level="project"/>
+        <orderEntry type="library" name="scala-library-2.13.10.jar" level="project"/>
+        <orderEntry type="library" name="scala-reflect-2.13.10.jar" level="project"/>
+        <orderEntry type="library" name="slf4j-api-1.7.25.jar" level="project"/>
+        <orderEntry type="library" name="sourcecode_2.13-0.3.0.jar" level="project"/>
+        <orderEntry type="library" name="ujson_2.13-3.0.0.jar" level="project"/>
+        <orderEntry type="library" name="undertow-core-2.3.10.Final.jar" level="project"/>
+        <orderEntry type="library" name="upack_2.13-3.0.0.jar" level="project"/>
+        <orderEntry type="library" name="upickle-core_2.13-3.0.0.jar" level="project"/>
+        <orderEntry type="library" name="upickle-implicits_2.13-3.0.0.jar" level="project"/>
+        <orderEntry type="library" name="upickle_2.13-3.0.0.jar" level="project"/>
+        <orderEntry type="library" name="wildfly-client-config-1.0.1.Final.jar" level="project"/>
+        <orderEntry type="library" name="wildfly-common-1.5.4.Final.jar" level="project"/>
+        <orderEntry type="library" name="xnio-api-3.8.8.Final.jar" level="project"/>
+        <orderEntry type="library" name="xnio-nio-3.8.8.Final.jar" level="project"/>
+    </component>
+</module>

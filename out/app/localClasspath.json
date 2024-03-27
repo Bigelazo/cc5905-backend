@@ -1,0 +1,9 @@
+{
+    "value": [
+        "ref:v0:c984eca8:/home/bigel/Documents/5905/minimalApplication-0.9.2/app/compile-resources",
+        "ref:v0:c984eca8:/home/bigel/Documents/5905/minimalApplication-0.9.2/app/resources",
+        "ref:v0:123057ed:/home/bigel/Documents/5905/minimalApplication-0.9.2/out/app/compile.dest/classes"
+    ],
+    "valueHash": -685552924,
+    "inputsHash": -217855662
+}
