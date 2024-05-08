@@ -15,8 +15,16 @@ object MinimalApplication extends cask.MainRoutes{
   val dummy3: Character = new Character(3, "dummy3", 51, 6)
   val dummy4: Character = new Character(4, "dummy4", 52, 7)
   val dummy5: Character = new Character(5, "dummy5", 53, 8)
+  val dummy6: Character = new Character(6, "dummy5", 53, 8)
+  val dummy7: Character = new Character(7, "dummy5", 53, 8)
+  val dummy8: Character = new Character(8, "dummy5", 53, 8)
+  val dummy9: Character = new Character(9, "dummy5", 53, 8)
+  val dummy10: Character = new Character(10, "dummy5", 53, 8)
+  val dummy11: Character = new Character( 11, "dummy5", 53, 8)
+  val dummy12: Character = new Character(12, "dummy5", 53, 8)
 
-  val characters: List[Character] = List(dummy1, dummy2, dummy3, dummy4, dummy5)
+  val characters: List[Character] = List(dummy1, dummy2, dummy3, dummy4, dummy5, dummy6, dummy7, dummy8, dummy9, dummy10, dummy11, dummy12)
+  var currentPlayer = characters(0)
 
   // Request -> Response
   // An http server is basically a function that for every request that it receives, it
@@ -26,14 +34,15 @@ object MinimalApplication extends cask.MainRoutes{
   @cask.get("/character")
   def character(): Response[Obj] = {
     val response = ujson.Obj(
-      "characters" -> ujson.Arr(
+      "characters" -> (
         for (character <- characters) yield ujson.Obj(
           "id" -> character.id,
           "name" -> character.name,
           "hp" -> character.hp,
           "attack" -> character.attack
         )
-      )
+      ),
+      "currentPlayer" -> currentPlayer.id
     )
     cask.Response(
       response,
@@ -86,6 +95,11 @@ object MinimalApplication extends cask.MainRoutes{
       }
     }
     receiver.hp -= attacker.attack
+
+    //get next player
+    val idx = characters.indexWhere(c => c.id == currentPlayer.id)
+    currentPlayer = characters((idx + 1) % characters.length)
+
     cask.Response(
       ujson.Obj("message" -> s"${attacker.name} attacked ${receiver.name}"),
       headers = Seq(
