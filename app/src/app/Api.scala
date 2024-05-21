@@ -1,48 +1,56 @@
 package app
 
 import cask.model.Response
+import model.Game.{characters, currentPlayer, panels}
 import ujson.Obj
-import model.Character
+import model.student.Character
 
-object MinimalApplication extends cask.MainRoutes{
-  /* Qué es lo que quiero hacer:
-  - GET información de todos los personajes en juego
-  - POST actualización de la vida de un personaje en juego (no me deja con POST)
+object Api extends cask.MainRoutes{
+
+  /*
+  Use GET when you need to *retrieve* data from the server.
+
+  Use POST when you need to *create* new data or *submit* data
+  for processing that might change the state of the server.
   */
 
-  val dummy1: Character = new Character(1, "dummy1", 100, 10)
-  val dummy2: Character = new Character(2, "dummy2", 50, 5)
-  val dummy3: Character = new Character(3, "dummy3", 51, 6)
-  val dummy4: Character = new Character(4, "dummy4", 52, 7)
-  val dummy5: Character = new Character(5, "dummy5", 53, 8)
-  val dummy6: Character = new Character(6, "dummy5", 53, 8)
-  val dummy7: Character = new Character(7, "dummy5", 53, 8)
-  val dummy8: Character = new Character(8, "dummy5", 53, 8)
-  val dummy9: Character = new Character(9, "dummy5", 53, 8)
-  val dummy10: Character = new Character(10, "dummy5", 53, 8)
-  val dummy11: Character = new Character( 11, "dummy5", 53, 8)
-  val dummy12: Character = new Character(12, "dummy5", 53, 8)
+  /* Ideas de endpoints para el sistema actual:
+  get("/") -> Entrega TODOS (todos?) los datos para inicializar el juego
+  post("/") -> Envía win condition para finalizar el juego
 
-  val characters: List[Character] = List(dummy1, dummy2, dummy3, dummy4, dummy5, dummy6, dummy7, dummy8, dummy9, dummy10, dummy11, dummy12)
-  var currentPlayer = characters(0)
+  get("/currentTurn") -> Entrega turno del personaje actual
+  post("/currentTurn") -> Actualiza el turno para el siguiente personaje
 
-  // Request -> Response
-  // An http server is basically a function that for every request that it receives, it
-  // will return a response, we call these functions "routes", and a server is nothing more
-  // than a set of these routes chained together.
+  get("/")
+  post("/")
+   */
 
+  /**
+   * This route returns all the characters in the game.
+   */
   @cask.get("/character")
   def character(): Response[Obj] = {
     val response = ujson.Obj(
       "characters" -> (
-        for (character <- characters) yield ujson.Obj(
-          "id" -> character.id,
-          "name" -> character.name,
-          "hp" -> character.hp,
-          "attack" -> character.attack
-        )
-      ),
+        for (character <- characters) yield character.toJson
+        ),
       "currentPlayer" -> currentPlayer.id
+    )
+    cask.Response(
+      response,
+      headers = Seq(
+        "Access-Control-Allow-Origin" -> "*",
+        "Content-Type" -> "application/json"
+      )
+    )
+  }
+
+  @cask.get("/panel")
+  def panel(): Response[Obj] = {
+    val response = ujson.Obj(
+      "panels" -> (
+        for (panel <- panels) yield panel.toJson
+        ),
     )
     cask.Response(
       response,
@@ -96,7 +104,6 @@ object MinimalApplication extends cask.MainRoutes{
     }
     receiver.hp -= attacker.attack
 
-    //get next player
     val idx = characters.indexWhere(c => c.id == currentPlayer.id)
     currentPlayer = characters((idx + 1) % characters.length)
 
