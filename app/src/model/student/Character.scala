@@ -7,17 +7,21 @@ class Character(override val id: Int,
                 var hp: Int,
                 val attack: Int) extends Movable {
 
-  var place: Option[Mappable] = None
+  var mappable: Option[Mappable] = None
 
   override def moveTo(mappable: Mappable): Unit = {
-    place = Some(mappable) // Implementación cuma
+    this.mappable = Some(mappable) // Implementación cuma
   }
 
-  def toJson: ujson.Obj = ujson.Obj(
-    "id" -> id,
-    "name" -> name,
-    "hp" -> hp,
-    "attack" -> attack)
+  def toJson: ujson.Obj = {
+    ujson.Obj(
+      "id" -> id,
+      "name" -> name,
+      "hp" -> hp,
+      "attack" -> attack,
+      "mappableId" -> mappable.map(_.id)
+    )
+  }
 
   def attack(c: Character): Unit = {
     c.receiveDamage(this)
@@ -26,4 +30,6 @@ class Character(override val id: Int,
   private def receiveDamage(c: Character): Unit = {
     hp -= c.attack
   }
+
+
 }

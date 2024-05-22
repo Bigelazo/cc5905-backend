@@ -3,12 +3,12 @@ package model.student
 import model.Visualizable
 import ujson.Obj
 
-class Player(val id: Int, val name: String) extends Visualizable {
+class Party(val id: Int, val name: String) extends Visualizable {
 
   var characters: List[Character] = List[Character]()
 
   def isDefeated: Boolean =
-    characters.foldLeft(0)((lifeTotal, character) => lifeTotal + character.hp) <= 0
+    characters.foldLeft(0)((lifeTotal, character) => lifeTotal + Math.max(character.hp,0)) <= 0
 
   override def toJson: Obj = Obj(
     "id" -> id,

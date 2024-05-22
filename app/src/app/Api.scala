@@ -1,7 +1,7 @@
 package app
 
 import cask.model.Response
-import model.Game.{characters, currentCharacter, findCharacter, panels, players}
+import model.GameState
 import ujson.Obj
 import model.student.Character
 
@@ -15,14 +15,14 @@ object Api extends cask.MainRoutes {
   @cask.get("/")
   def sendGameData(): Response[Obj] = {
     val response = Obj(
-      "players" -> (
-        for (player <- players) yield player.toJson
+      "parties" -> (
+        for (party <- GameState().parties) yield party.toJson
       ),
       "panels" -> (
-        for (panel <- panels) yield panel.toJson
+        for (panel <- GameState().panels) yield panel.toJson
       ),
-      "currentCharacter" -> currentCharacter.id,
-      "winCondition" -> 0,
+      "currentCharacter" -> GameState().currentCharacter.id,
+      "gameStatus" -> GameState().getGameStatus(),
     )
     cask.Response(response, headers = headers)
   }
@@ -31,9 +31,10 @@ object Api extends cask.MainRoutes {
   def character(): Response[Obj] = {
     val response = ujson.Obj(
       "characters" -> (
-        for (character <- characters) yield character.toJson
+        for (character <- GameState().characters) yield character.toJson
         ),
-      "currentCharacter" -> currentCharacter.id
+      "currentCharacter" -> GameState().currentCharacter.id,
+      "gameStatus" -> GameState().getGameStatus()
     )
     cask.Response(response, headers = headers)
   }
@@ -42,7 +43,7 @@ object Api extends cask.MainRoutes {
   def panel(): Response[Obj] = {
     val response = ujson.Obj(
       "panels" -> (
-        for (panel <- panels) yield panel.toJson
+        for (panel <- GameState().panels) yield panel.toJson
         ),
     )
     cask.Response(response, headers = headers)
@@ -50,13 +51,13 @@ object Api extends cask.MainRoutes {
 
   @cask.post("/attack/:attackerId/:receiverId")
   def attack(attackerId: Int, receiverId: Int): Response[Obj] = {
-    val attacker: Character = findCharacter(attackerId).get
-    val receiver: Character = findCharacter(receiverId).get
+    val attacker: Character = GameState().findCharacter(attackerId).get
+    val receiver: Character = GameState().findCharacter(receiverId).get
 
     attacker.attack(receiver)
 
-    val idx = characters.indexWhere(c => c.id == currentCharacter.id) + 1
-    currentCharacter = characters(idx % characters.length)
+    val idx = GameState().characters.indexWhere(c => c.id == GameState().currentCharacter.id) + 1
+    GameState().currentCharacter = GameState().characters(idx % GameState().characters.length)
 
     cask.Response(
       ujson.Obj("message" -> s"${attacker.name} attacked ${receiver.name}"),
@@ -72,6 +73,13 @@ object Api extends cask.MainRoutes {
     )
     cask.Response(response, headers = headers)
   }
+
+  @cask.get("/reset")
+  def reset(): Response[Obj] = {
+    GameState.reset()
+    sendGameData()
+  }
+
 
   initialize()
 }

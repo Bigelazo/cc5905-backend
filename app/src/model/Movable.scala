@@ -10,7 +10,7 @@ trait Movable extends Visualizable {
    * Represents the current standing position of the movable. If there is no mappable in place, it
    * means that the movable isn't currently on the map.
    */
-  var place: Option[Mappable]
+  var mappable: Option[Mappable]
 
   /**
    * Displaces the movable to the selected mappable. This method needs to verify the following

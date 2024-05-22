@@ -33,5 +33,5 @@ trait Mappable extends Visualizable {
   /**
    * The next mappable objects which a movable object can displace into.
    */
-  var next: List[Mappable]
+  val next: List[Mappable]
 }

@@ -1,12 +1,12 @@
 package model
 
-import model.student.{Character, Panel, Player}
+import model.student.{Character, Panel, Party}
 
-object Game {
-  val p1: Player = new Player(1, "Ally Player")
-  val p2: Player = new Player(2, "Enemy Player")
+class GameState{
+  val p1: Party = new Party(1, "Ally Player")
+  val p2: Party = new Party(2, "Enemy Player")
 
-  val players: List[Player] = List(p1, p2)
+  val parties: List[Party] = List(p1, p2)
 
   val dummy1: Character = new Character(1, "Ally 1", 100, 10)
   val dummy2: Character = new Character(2, "Ally 2", 50, 5)
@@ -47,6 +47,34 @@ object Game {
 
   val panels: List[Panel] = List(panel1, panel2, panel3, panel4, panel5, panel6, panel7,
     panel8, panel9)
+
+  dummy1.moveTo(panel1)
+  dummy2.moveTo(panel8)
+  dummy3.moveTo(panel2)
+  dummy4.moveTo(panel4)
+  /*
+  * Returns the current game status.
+  * -1 if player 1 is defeated
+  * 1 if player 2 is defeated
+  * 0 if the game is still ongoing
+   */
+  def getGameStatus() = {
+    if (p1.isDefeated) {
+      -1
+    } else if (p2.isDefeated) {
+      1
+    } else {
+      0
+    }
+  }
+
+
+}
+//singleton
+object GameState {
+  private var game = new GameState()
+  def apply(): GameState = game
+  def reset() = game = new GameState()
 }
 
 /* val map: Map[Int, Character] = Map[Int, Character](dummy1.id, dummy1)(dummy2.id, dummy2) */
