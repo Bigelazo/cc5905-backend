@@ -18,4 +18,12 @@ class Character(override val id: Int,
     "name" -> name,
     "hp" -> hp,
     "attack" -> attack)
+
+  def attack(c: Character): Unit = {
+    c.receiveDamage(this)
+  }
+
+  private def receiveDamage(c: Character): Unit = {
+    hp -= c.attack
+  }
 }
