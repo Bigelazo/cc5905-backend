@@ -7,10 +7,10 @@ package model
 trait Movable extends Visualizable {
 
   /**
-   * Represents the current standing position of the movable. If there is no mappable in place, it
+   * Represents the current standing position of the movable. If there is no Section in place, it
    * means that the movable isn't currently on the map.
    */
-  var mappable: Option[Mappable]
+  var currentSection: Option[Section]
 
   /**
    * Displaces the movable to the selected mappable. This method needs to verify the following
@@ -20,7 +20,7 @@ trait Movable extends Visualizable {
    *
    * 2. The selected mappable has to be one of the next mappable objects of the current place.
    *
-   * @param mappable the mappable object that the movable desires to displace into.
+   * @param section the Section that the movable desires to displace into.
    */
-  def moveTo(mappable: Mappable): Unit
+  def moveTo(section: Section): Unit
 }

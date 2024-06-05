@@ -2,12 +2,12 @@ package model
 
 /**
  * Represents an object that can be used to build the map of the game. Think of it as a block of
- * grass in the map, or like a tile in a monopoly.
+ * grass in the map, or like a tile in monopoly.
  *
  * It serves three main purposes:
  *
- * 1. Build the map: A set of mappable objects can provide a freely way to represent fixed boards,
- * or open fields.
+ * 1. Build the map: A set of Sections can provide a freely way to represent fixed boards, or open
+ * fields.
  *
  * 2. Provide mobility: The movable objects can displace into the designed next mappable objects,
  * giving them moving actions towards a goal or destination.
@@ -16,7 +16,7 @@ package model
  * leaves the tile. The cool part is that you can fit these effects to your
  * liking, and by default, there are no effects.
  */
-trait Mappable extends Visualizable {
+trait Section extends Visualizable {
 
   /**
    * The coordinates of the object in the map. The origin of the coordinates is (1,1) and it's meant
@@ -33,5 +33,5 @@ trait Mappable extends Visualizable {
   /**
    * The next mappable objects which a movable object can displace into.
    */
-  val next: List[Mappable]
+  val next: List[Section]
 }

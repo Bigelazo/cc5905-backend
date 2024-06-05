@@ -22,7 +22,7 @@ object Api extends cask.MainRoutes {
         for (panel <- GameState().panels) yield panel.toJson
       ),
       "currentCharacter" -> GameState().currentCharacter.id,
-      "gameStatus" -> GameState().getGameStatus(),
+      "gameStatus" -> GameState().getGameStatus,
     )
     cask.Response(response, headers = headers)
   }
@@ -34,7 +34,7 @@ object Api extends cask.MainRoutes {
         for (character <- GameState().characters) yield character.toJson
         ),
       "currentCharacter" -> GameState().currentCharacter.id,
-      "gameStatus" -> GameState().getGameStatus()
+      "gameStatus" -> GameState().getGameStatus
     )
     cask.Response(response, headers = headers)
   }

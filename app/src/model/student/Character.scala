@@ -1,16 +1,16 @@
 package model.student
 
-import model.{Mappable, Movable}
+import model.{Section, Movable}
 
 class Character(override val id: Int,
                 val name: String,
                 var hp: Int,
                 val attack: Int) extends Movable {
 
-  var mappable: Option[Mappable] = None
+  var currentSection: Option[Section] = None
 
-  override def moveTo(mappable: Mappable): Unit = {
-    this.mappable = Some(mappable) // Implementación cuma
+  override def moveTo(section: Section): Unit = {
+    this.currentSection = Some(section) // Implementación cuma
   }
 
   def toJson: ujson.Obj = {
@@ -19,7 +19,7 @@ class Character(override val id: Int,
       "name" -> name,
       "hp" -> hp,
       "attack" -> attack,
-      "mappableId" -> mappable.map(_.id)
+      "mappableId" -> currentSection.map(_.id)
     )
   }
 

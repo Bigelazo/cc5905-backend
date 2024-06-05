@@ -52,13 +52,14 @@ class GameState{
   dummy2.moveTo(panel8)
   dummy3.moveTo(panel2)
   dummy4.moveTo(panel4)
-  /*
+
+  /**
   * Returns the current game status.
   * -1 if player 1 is defeated
   * 1 if player 2 is defeated
   * 0 if the game is still ongoing
    */
-  def getGameStatus() = {
+  def getGameStatus: Int = {
     if (p1.isDefeated) {
       -1
     } else if (p2.isDefeated) {
