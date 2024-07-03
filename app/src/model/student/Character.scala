@@ -7,10 +7,12 @@ class Character(override val id: Int,
                 var hp: Int,
                 val attack: Int) extends Movable {
 
+  var weapon: Option[Weapon] = None
+
   var currentSection: Option[Section] = None
 
   override def moveTo(section: Section): Unit = {
-    this.currentSection = Some(section) // Implementación cuma
+    this.currentSection = Some(section)
   }
 
   def toJson: ujson.Obj = {
