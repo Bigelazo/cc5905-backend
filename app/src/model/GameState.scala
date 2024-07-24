@@ -1,27 +1,27 @@
 package model
 
-import model.student.{Character, Panel, Party}
+import model.student.{Character, Panel, Party, Weapon}
 
 class GameState{
-  val p1: Party = new Party(1, "Ally Player")
-  val p2: Party = new Party(2, "Enemy Player")
+  val p1: Party = new Party(2, "Ally Player")
+  val p2: Party = new Party(1, "Enemy Player")
 
   val parties: List[Party] = List(p1, p2)
 
-  val dummy1: Character = new Character(1, "Ally 1", 100, 10)
-  val dummy2: Character = new Character(2, "Ally 2", 50, 5)
-  val dummy3: Character = new Character(3, "Ally 3", 51, 6)
-  val dummy4: Character = new Character(4, "Ally 4", 52, 7)
+  val dummy1: Character = new Character(1, "Relm", 100, 10, "Relm.gif")
+  val dummy2: Character = new Character(2, "Setzer", 50, 5, "Setzer.gif")
+  val dummy3: Character = new Character(3, "Terra", 51, 6, "Terra.gif")
+  val dummy4: Character = new Character(4, "Gogo", 52, 7, "Gogo.gif")
 
   val allies: List[Character] = List(dummy1, dummy2, dummy3, dummy4)
 
   p1.characters = allies
 
-  val dummy5: Character = new Character(5, "Enemy 1", 53, 8)
-  val dummy6: Character = new Character(6, "Enemy 2", 54, 9)
-  val dummy7: Character = new Character(7, "Enemy 3", 55, 11)
-  val dummy8: Character = new Character(8, "Enemy 4", 56, 4)
-  val dummy9: Character = new Character(9, "Enemy 5", 57, 3)
+  val dummy5: Character = new Character(5, "Mag Roader", 53, 8, "Mag Roader.gif")
+  val dummy6: Character = new Character(6, "Nohrabbit", 54, 9, "Nohrabbit.gif")
+  val dummy7: Character = new Character(7, "Primordite", 55, 11, "Primordite.gif")
+  val dummy8: Character = new Character(8, "Wizard", 56, 4, "Wizard.gif")
+  val dummy9: Character = new Character(9, "Crawly", 57, 3, "Crawly.gif")
 
   val enemies: List[Character] = List(dummy5, dummy6, dummy7, dummy8, dummy9)
 
@@ -34,7 +34,7 @@ class GameState{
 
   def findPanel(id: Int): Option[Panel] = panels.find(_.id == id)
 
-  var currentCharacter: Character = characters.head
+  var   currentCharacter: Character = characters.head
 
   val panel1: Panel = new Panel(1, (1, 1))
   val panel2: Panel = new Panel(2, (1, 2))
@@ -96,6 +96,15 @@ class GameState{
     }
   }
 
+  val w1: Weapon = new Weapon(1, "Excalibur", 10)
+  val w2: Weapon = new Weapon(2, "Sword", 20)
+  val w3: Weapon = new Weapon(3, "Axe", 30)
+  val w4: Weapon = new Weapon(4, "Staff", 40)
+  val w5: Weapon = new Weapon(5, "Wand", 50)
+
+  val weapons = List(w1, w2, w3, w4, w5)
+
+  def findWeapon(id: Int): Option[Weapon] = weapons.find(_.id == id)
 
 }
 

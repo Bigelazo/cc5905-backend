@@ -2,6 +2,7 @@ package app
 
 import cask.model.Response
 import model.GameState
+import model.action.{Action, Punch}
 import ujson.Obj
 import model.student.{Character, Panel}
 
@@ -110,36 +111,71 @@ object Api extends cask.MainRoutes {
   * 3. Generalizar a utilizar objeto: Item | Poción | Arma | Armadura
   * */
 
-  /**
-   * Recibe una acción a realizar, y devuelve una lista de las posibles ejecuciones a realizar por
-   * la unidad que solicitó esa acción.
-   *
-   * Por ejemplo, si se deseara equipar un arma, entrega una lista de las posibles armas a
-   * equiparse, o si se deseara lanzar un hechizo, entrega una lista de los posibles hechizos que
-   * puede utilizar.
-   */
-  @cask.get("/select-action/:selectorId/:requesterId")
-  def selectAction(selectorId: Int, requesterId: Int): Response[String] = {
-    val response = selectorId match {
-      case 0 => "Entregar menú principal"
-      case 1 => "Entregar lista de personajes en JSON"
-      case 2 => "Entregar lista de hechizos en JSON"
-      case 3 => "Entregar lista de armas en JSON"
-      case 4 => "Entregar lista de paneles en JSON"
-    }
+  def esSubclase[T: Manifest, U: Manifest]: Boolean = {
+    manifest[U].runtimeClass.isAssignableFrom(manifest[T].runtimeClass)
+  }
 
+  @cask.get("/show-actions/:requesterId")
+  def showPossibleActions(requesterId: Int): Response[Obj] = {
+    val response = Obj(
+      "actions" -> (for (action <- GameState().currentCharacter.actions) yield action.toJson)
+    )
     cask.Response(response, headers = headers)
   }
 
   @cask.post("/execute-action/:actionId/:requesterId/:targetId")
-  def executeAction(actionId: Int, requesterId: Int, targetId: Int): Response[String] = {
-    val response = actionId match {
-      case 1 => "Realizar ataque de rId a tId"
-      case 2 => ""
+  def executeAction(actionId: Int, requesterId: Int, targetId: Int): Response[Obj] = {
+    val actionExecutioner = GameState().findCharacter(requesterId).get
+//    val actionReceiver = if (actionId == 2) GameState().findPanel(targetId).get
+//    else GameState().findCharacter(targetId).get
+
+    var msg = ""
+    if (actionId == 2) {
+      actionExecutioner.doAction(actionId, GameState().findPanel(targetId).get)
+      msg = s"Panel ${GameState().findPanel(targetId).get.id}"
+    } else if (actionId == 10) {
+      actionExecutioner.doAction(actionId, GameState().findWeapon(targetId).get)
+      msg = s"Weapon ${GameState().findWeapon(targetId).get.name}"
+    }
+    else {
+      actionExecutioner.doAction(actionId, GameState().findCharacter(targetId).get)
+      msg = s"${GameState().findCharacter(targetId).get.name}"
     }
 
-    cask.Response(response, headers = headers)
+    // actionExecutioner.doAction(actionId, actionReceiver)
+
+    val idx = GameState().characters.indexWhere(c => c.id == GameState().currentCharacter.id) + 1
+    GameState().currentCharacter = GameState().characters(idx % GameState().characters.length)
+
+    cask.Response(
+      Obj(
+        "message" -> s"${actionExecutioner.name} executed action ${actionExecutioner.findActionById(actionId).getClass.getName} on $msg",
+        "currentUnit" -> GameState().currentCharacter.id
+      ),
+      headers = headers
+    )
   }
+
+  @cask.staticResources("/static/resource")
+  def staticResourceRoutes() = "."
+
+
+  /*@cask.get("/static/resource/:image")
+  def getStatic(image: String) = {
+    //val file = new FileInputStream("./app/resources/BlackMage.gif")
+    val x = classOf[staticResources].getClassLoader
+    val path = "./"+image
+    val file = x.getResourceAsStream(path)
+    val contentType = java.nio.file.Files.probeContentType(java.nio.file.Paths.get(path))
+    println(file, contentType)
+    cask.Response(
+      file,
+      headers =  Seq(
+        "Access-Control-Allow-Origin" -> "*",
+        "Content-Type" -> contentType
+      )
+    )
+  }*/
 
 
   initialize()
