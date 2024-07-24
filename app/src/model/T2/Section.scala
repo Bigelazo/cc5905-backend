@@ -1,4 +1,4 @@
-package model
+package model.T2
 
 /**
  * Represents an object that can be used to build the map of the game. Think of it as a block of

@@ -1,6 +1,6 @@
-package model
+package model.T2
 
-import model.student.{Character, Panel, Party, Weapon}
+import model.T2.student.{Fighter, Panel, Party, Weapon}
 
 class GameState{
   val p1: Party = new Party(2, "Ally Player")
@@ -8,33 +8,36 @@ class GameState{
 
   val parties: List[Party] = List(p1, p2)
 
-  val dummy1: Character = new Character(1, "Relm", 100, 10, "Relm.gif")
-  val dummy2: Character = new Character(2, "Setzer", 50, 5, "Setzer.gif")
-  val dummy3: Character = new Character(3, "Terra", 51, 6, "Terra.gif")
-  val dummy4: Character = new Character(4, "Gogo", 52, 7, "Gogo.gif")
+  val dummy1: student.Character = new student.Character(1, "Relm", 100, 10, "Relm.gif")
+  val dummy2: student.Character = new Fighter(2, "Setzer", 50, 5, "Setzer.gif")
+  val dummy3: student.Character = new student.Character(3, "Terra", 51, 6, "Terra.gif")
+  val dummy4: student.Character = new student.Character(4, "Gogo", 52, 7, "Gogo.gif")
 
-  val allies: List[Character] = List(dummy1, dummy2, dummy3, dummy4)
+  val allies: List[student.Character] = List(dummy1, dummy2, dummy3, dummy4)
 
   p1.characters = allies
 
-  val dummy5: Character = new Character(5, "Mag Roader", 53, 8, "Mag Roader.gif")
-  val dummy6: Character = new Character(6, "Nohrabbit", 54, 9, "Nohrabbit.gif")
-  val dummy7: Character = new Character(7, "Primordite", 55, 11, "Primordite.gif")
-  val dummy8: Character = new Character(8, "Wizard", 56, 4, "Wizard.gif")
-  val dummy9: Character = new Character(9, "Crawly", 57, 3, "Crawly.gif")
+  val dummy5: student.Character = new student.Character(5, "Mag Roader", 53, 8, "Mag Roader.gif")
+  val dummy6: student.Character = new student.Character(6, "Nohrabbit", 54, 9, "Nohrabbit.gif")
+  val dummy7: student.Character = new student.Character(7, "Primordite", 55, 11, "Primordite.gif")
+  val dummy8: student.Character = new student.Character(8, "Wizard", 56, 4, "Wizard.gif")
+  val dummy9: student.Character = new student.Character(9, "Crawly", 57, 3, "Crawly.gif")
 
-  val enemies: List[Character] = List(dummy5, dummy6, dummy7, dummy8, dummy9)
+  val enemies: List[student.Character] = List(dummy5, dummy6, dummy7, dummy8, dummy9)
 
   p2.characters = enemies
 
-  val characters: List[Character] = List(dummy1, dummy2, dummy3, dummy4, dummy5, dummy6, dummy7,
+  val characters: List[student.Character] = List(dummy1, dummy2, dummy3, dummy4, dummy5, dummy6, dummy7,
     dummy8, dummy9)
 
-  def findCharacter(id: Int): Option[Character] = characters.find(_.id == id)
+  def findCharacter(id: Int): Option[student.Character] = characters.find(_.id == id)
 
   def findPanel(id: Int): Option[Panel] = panels.find(_.id == id)
 
-  var   currentCharacter: Character = characters.head
+
+  //def findTarget(id: Int): Option[Target] = findPanel(id).getOrElse(findCharacter(id))
+
+  var   currentCharacter: student.Character = characters.head
 
   val panel1: Panel = new Panel(1, (1, 1))
   val panel2: Panel = new Panel(2, (1, 2))

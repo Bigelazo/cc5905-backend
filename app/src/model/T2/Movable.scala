@@ -1,4 +1,4 @@
-package model
+package model.T2
 
 /**
  * Represents an object that can move around the map of the game. Think of it as character token in

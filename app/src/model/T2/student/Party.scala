@@ -1,7 +1,9 @@
-package model.student
+package model.T2.student
 
-import model.Visualizable
+import model.T2.Visualizable
 import ujson.Obj
+
+import java.lang
 
 class Party(val id: Int, val name: String) extends Visualizable {
 

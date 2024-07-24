@@ -1,7 +1,8 @@
-package model.action
+package model.T2.action
+
 import ujson.Obj
 
-class Punch extends Action {
+class Punch extends Action with ActionOnCharacter {
 
   val id: Int = 1
 

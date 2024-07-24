@@ -1,7 +1,7 @@
-package model.student
+package model.T2.student
 
-import model.action.{Action, Move}
-import model.{Movable, Section, Target}
+import model.T2.{Movable, Section, Target}
+import model.T2.action.{Action, Move}
 
 class Panel(override val id: Int,
             override val coordinates: (Int, Int),
@@ -14,11 +14,9 @@ class Panel(override val id: Int,
     "x" -> coordinates._1,
     "y" -> coordinates._2)
 
-  override val actions: List[Action] = List()
+  override def doAction(action: Action, target: Target): Unit = {}
 
-  override def doAction(actionId: Int, target: Target): Unit = {}
-
-  override def receiveMoveAction(source: Target): Unit = {
-    source.asInstanceOf[Character].moveTo(this)
+  override def receiveMoveAction(source: Character): Unit = {
+    source.moveTo(this)
   }
 }

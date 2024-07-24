@@ -1,10 +1,10 @@
 package app
 
 import cask.model.Response
-import model.GameState
-import model.action.{Action, Punch}
+import model.T1._
+//import model.T1.action._
+//import model.T1.student._
 import ujson.Obj
-import model.student.{Character, Panel}
 
 object Api extends cask.MainRoutes {
 
@@ -46,7 +46,7 @@ object Api extends cask.MainRoutes {
     cask.Response(response, headers = headers)
   }
 
-  @cask.post("/attack/:attackerId/:receiverId")
+  /*@cask.post("/attack/:attackerId/:receiverId")
   def attack(attackerId: Int, receiverId: Int): Response[Obj] = {
     val attacker: Character = GameState().findCharacter(attackerId).get
     val receiver: Character = GameState().findCharacter(receiverId).get
@@ -63,9 +63,9 @@ object Api extends cask.MainRoutes {
       ),
       headers = headers
     )
-  }
+  }*/
 
-  @cask.post("/assign/:charId/:panelId")
+  /*@cask.post("/assign/:charId/:panelId")
   def assign(charId: Int, panelId: Int): Response[Obj] = {
     val character: Character = GameState().findCharacter(charId).get
     val panel: Panel = GameState().findPanel(panelId).get
@@ -81,7 +81,7 @@ object Api extends cask.MainRoutes {
         "currentUnit" -> GameState().currentCharacter.id
       ),
       headers = headers)
-  }
+  }*/
 
   @cask.get("/reset")
   def reset(): Response[Obj] = {
@@ -123,23 +123,24 @@ object Api extends cask.MainRoutes {
     cask.Response(response, headers = headers)
   }
 
-  @cask.post("/execute-action/:actionId/:requesterId/:targetId")
-  def executeAction(actionId: Int, requesterId: Int, targetId: Int): Response[Obj] = {
-    val actionExecutioner = GameState().findCharacter(requesterId).get
+  @cask.post("/execute-action/:actionId/:sourceId/:targetId")
+  def executeAction(actionId: Int, sourceId: Int, targetId: Int): Response[Obj] = {
+    val source = GameState().findCharacter(sourceId).get
+    val action = source.findActionById(actionId)
 //    val actionReceiver = if (actionId == 2) GameState().findPanel(targetId).get
 //    else GameState().findCharacter(targetId).get
 
-    var msg = ""
-    if (actionId == 2) {
-      actionExecutioner.doAction(actionId, GameState().findPanel(targetId).get)
-      msg = s"Panel ${GameState().findPanel(targetId).get.id}"
-    } else if (actionId == 10) {
-      actionExecutioner.doAction(actionId, GameState().findWeapon(targetId).get)
-      msg = s"Weapon ${GameState().findWeapon(targetId).get.name}"
-    }
-    else {
-      actionExecutioner.doAction(actionId, GameState().findCharacter(targetId).get)
-      msg = s"${GameState().findCharacter(targetId).get.name}"
+    val msg = action match{
+      case a: ActionOnCharacter =>
+        source.doAction(a, GameState().findCharacter(targetId).get)
+        s"${GameState().findCharacter(targetId).get.name}"
+      case a: ActionOnPanel =>
+        source.doAction(a, GameState().findPanel(targetId).get)
+        s"Panel ${GameState().findPanel(targetId).get.id}"
+      case a: ActionOnWeapon =>
+        source.doAction(a, GameState().findCharacter(targetId).get)
+        s"${GameState().findCharacter(targetId).get.name}"
+      case _ => throw new Exception("Invalid action")
     }
 
     // actionExecutioner.doAction(actionId, actionReceiver)
@@ -149,7 +150,7 @@ object Api extends cask.MainRoutes {
 
     cask.Response(
       Obj(
-        "message" -> s"${actionExecutioner.name} executed action ${actionExecutioner.findActionById(actionId).getClass.getName} on $msg",
+        "message" -> s"${source.name} executed action ${source.findActionById(actionId).getClass.getName} on $msg",
         "currentUnit" -> GameState().currentCharacter.id
       ),
       headers = headers

@@ -1,10 +1,10 @@
-package model.student
+package model.T2.student
 
-import model.action.spell.{Fireball, Icebolt}
-import model.action.{Action, Equip, Move, Punch}
-import model.{GameState, Movable, Section, Target}
+import model.T2.{GameState, Movable, Section, Target}
+import model.T2.action.spell.{Fireball, Icebolt}
+import model.T2.action.{Action, Equip, Move, Punch}
 
-class Character(override val id: Int,
+class Character(val id: Int,
                 val name: String,
                 var hp: Int,
                 val attack: Int,
@@ -14,7 +14,7 @@ class Character(override val id: Int,
 
   var currentSection: Option[Section] = None
 
-  val actions: List[Action] = List(new Punch, new Fireball, new Icebolt, new Move, new Equip(List(new Weapon(1, "E", 10))))
+  override val actions: List[Action] = List(new Punch, new Fireball, new Icebolt, new Move, new Equip(List(new Weapon(1, "E", 10))))
 
   /**
    * Dado un id de acción, encuentra la acción correspondiente en la lista de acciones.
@@ -25,9 +25,9 @@ class Character(override val id: Int,
     actions(actionIndex)
   }
 
-  def doAction(actionId: Int, target: Target): Unit = {
+  def doAction(action: Action, target: Target): Unit = {
     //this.actions(actionId).execute(this, target)
-    this.findActionById(actionId) match {
+    action match {
       case p: Punch => target.receivePunchAction(this)
       case f: Fireball => target.receiveFireballAction(this)
       case i: Icebolt => target.receiveIceboltAction(this)
@@ -36,16 +36,16 @@ class Character(override val id: Int,
     }
   }
 
-  override def receivePunchAction(source: Target): Unit = {
-    receiveDamage(source.asInstanceOf[Character])
+  override def receivePunchAction(source: Character): Unit = {
+    receiveDamage(source)
   }
 
-  override def receiveFireballAction(source: Target): Unit = {
-    receiveDamage(source.asInstanceOf[Character])
+  override def receiveFireballAction(source: Character): Unit = {
+    receiveDamage(source)
   }
 
-  override def receiveIceboltAction(source: Target): Unit = {
-    receiveDamage(source.asInstanceOf[Character])
+  override def receiveIceboltAction(source: Character): Unit = {
+    receiveDamage(source)
   }
 
   override def moveTo(section: Section): Unit = {
@@ -72,4 +72,12 @@ class Character(override val id: Int,
   }
 
 
+}
+
+class Fighter(id: Int,
+              name: String,
+              hp: Int,
+              attack: Int,
+              img: String = "") extends Character(id, name, hp, attack, img){
+  override val actions: List[Action] = List(new Punch, new Move)
 }
