@@ -1,6 +1,7 @@
-package model.T2.action
+package model.action.use
 
-import model.T2.student.Weapon
+import model.action.{Action, ActionOnWeapon}
+import model.unit.Weapon
 import ujson.Obj
 
 class Equip(val weapons: List[Weapon]) extends Action with ActionOnWeapon {

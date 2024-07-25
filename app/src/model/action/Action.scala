@@ -1,6 +1,6 @@
-package model.T2.action
+package model.action
 
-import model.T2.Visualizable
+import model.Visualizable
 
 trait Action extends Visualizable {
 

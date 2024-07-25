@@ -1,7 +1,7 @@
-package model.T2.student
+package model.unit
 
-import model.T2.action.Action
-import model.T2.{Target, student}
+import model.action.Action
+import model.{Target, unit}
 
 import java.lang.Character
 
@@ -16,7 +16,7 @@ class Weapon(val id: Int, val name: String, val damage: Int) extends Target {
 
   override def doAction(action: Action, target: Target): Unit = {}
 
-  override def receiveEquipAction(source: student.Character): Unit = {
+  override def receiveEquipAction(source: unit.Character): Unit = {
     source.weapon = Some(this)
   }
 }

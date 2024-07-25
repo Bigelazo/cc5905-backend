@@ -1,4 +1,4 @@
-package model.T2.action
+package model.action
 
 import ujson.Obj
 

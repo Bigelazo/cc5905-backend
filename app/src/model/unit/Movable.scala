@@ -1,4 +1,7 @@
-package model.T2
+package model.unit
+
+import model.Visualizable
+import model.section.Section
 
 /**
  * Represents an object that can move around the map of the game. Think of it as character token in

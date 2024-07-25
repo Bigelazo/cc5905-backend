@@ -1,5 +1,6 @@
-package model.T2.action
+package model.action.spell
 
+import model.action.{Action, ActionOnCharacter}
 import ujson.Obj
 
 trait Spell extends Action with ActionOnCharacter {

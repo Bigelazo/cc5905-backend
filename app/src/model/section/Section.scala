@@ -1,4 +1,7 @@
-package model.T2
+package model.section
+
+import model.Visualizable
+import model.unit.Movable
 
 /**
  * Represents an object that can be used to build the map of the game. Think of it as a block of

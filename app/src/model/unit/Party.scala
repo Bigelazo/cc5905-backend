@@ -1,6 +1,7 @@
-package model.T2.student
+package model.unit
 
-import model.T2.Visualizable
+import model.Visualizable
+import model.section.Panel
 import ujson.Obj
 
 import java.lang

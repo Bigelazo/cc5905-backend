@@ -1,8 +1,12 @@
-package model.T2.student
+package model.unit
 
-import model.T2.{GameState, Movable, Section, Target}
-import model.T2.action.spell.{Fireball, Icebolt}
-import model.T2.action.{Action, Equip, Move, Punch}
+import controller.GameState
+import model.action.move.Move
+import model.Target
+import model.action.spell.{Fireball, Icebolt}
+import model.action.use.Equip
+import model.action.{Action, Punch}
+import model.section.Section
 
 class Character(val id: Int,
                 val name: String,

@@ -1,5 +1,6 @@
-package model.T2.action
+package model.action.move
 
+import model.action.{Action, ActionOnPanel}
 import ujson.Obj
 
 class Move extends Action with ActionOnPanel {

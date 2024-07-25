@@ -1,6 +1,5 @@
-package model.T2.action.spell
+package model.action.spell
 
-import model.T2.action.Spell
 import ujson.Obj
 
 class Icebolt extends Spell {

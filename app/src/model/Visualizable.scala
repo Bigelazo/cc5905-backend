@@ -1,4 +1,4 @@
-package model.T2
+package model
 
 /**
  * Represents an object that can be visualized in the user interface.

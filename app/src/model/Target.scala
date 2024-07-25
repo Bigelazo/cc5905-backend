@@ -1,7 +1,7 @@
-package model.T2
+package model
 
-import model.T2.action.Action
-import model.T2.student.Character
+import model.action.Action
+import model.unit.Character
 
 trait Target {
 
