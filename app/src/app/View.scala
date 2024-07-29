@@ -39,7 +39,7 @@ object View extends cask.MainRoutes {
     val source = GameState().findCharacter(sourceId).get
     val action = source.findActionById(actionId)
 
-    val msg = action match{
+    val msg = action match {
       case a: ActionOnCharacter =>
         source.doAction(a, GameState().findCharacter(targetId).get)
         s"${GameState().findCharacter(targetId).get.name}"

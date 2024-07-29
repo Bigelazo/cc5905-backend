@@ -5,11 +5,6 @@ import model.unit.{Fighter, Party, Weapon, Character}
 
 class GameState {
 
-  private val parties: List[Party] = List(
-    new Party(2, "Ally Player"),
-    new Party(1, "Enemy Player")
-  )
-
   private val allies: List[Character] = List(
     new Character(1, "Relm", 100, 10, "Relm.gif"),
     new Fighter(2, "Setzer", 50, 5, "Setzer.gif"),
@@ -25,9 +20,6 @@ class GameState {
     new Character(9, "Crawly", 57, 3, "Crawly.gif")
   )
 
-  parties.head.characters = allies
-  parties(1).characters = enemies
-
   val characters: List[Character] = allies ++ enemies
 
   def findCharacter(id: Int): Option[Character] = characters.find(_.id == id)
@@ -35,19 +27,6 @@ class GameState {
   def findPanel(id: Int): Option[Panel] = panels.find(_.id == id)
 
   var currentCharacter: Character = characters.head
-
-  val panel10: Panel = new Panel(10, (1, 1))
-  val panel11: Panel = new Panel(11, (1, 2))
-  val panel12: Panel = new Panel(12, (1, 3))
-  val panel13: Panel = new Panel(13, (2, 1))
-  val panel14: Panel = new Panel(14, (2, 2))
-  val panel15: Panel = new Panel(15, (2, 3))
-  val panel16: Panel = new Panel(16, (3, 1))
-  val panel17: Panel = new Panel(17, (3, 2))
-  val panel18: Panel = new Panel(18, (3, 3))
-
-  val panels: List[Panel] = List(panel1, panel2, panel3, panel4, panel5, panel6, panel7,
-    panel8, panel9, panel10, panel11, panel12, panel13, panel14, panel15, panel16, panel17, panel18)
 
   private val alliesSide: List[Panel] = List(
     new Panel(1, (1, 1)),
@@ -61,51 +40,53 @@ class GameState {
     new Panel(9, (3, 3))
   )
 
-  val enemiesSide: List[Panel] = List(panel10, panel11, panel12, panel13, panel14, panel15, panel16, panel17, panel18)
+  private val enemiesSide: List[Panel] = List(
+    new Panel(10, (1, 1)),
+    new Panel(11, (1, 2)),
+    new Panel(12, (1, 3)),
+    new Panel(13, (2, 1)),
+    new Panel(14, (2, 2)),
+    new Panel(15, (2, 3)),
+    new Panel(16, (3, 1)),
+    new Panel(17, (3, 2)),
+    new Panel(18, (3, 3))
+  )
 
-  p1.panels = alliesSide
+  val panels: List[Panel] = alliesSide ++ enemiesSide
 
-  p2.panels = enemiesSide
+  private val parties: List[Party] = List(
+    new Party(2, "Ally Player"),
+    new Party(1, "Enemy Player")
+  )
+
+  parties.head.characters = allies
+  parties(1).characters = enemies
+
+  parties.head.panels = alliesSide
+  parties(1).panels = enemiesSide
 
   def findParty(id: Int): Option[Party] = parties.find(_.id == id)
 
-  dummy1.moveTo(panel1)
-  dummy2.moveTo(panel8)
-  dummy3.moveTo(panel2)
-  dummy4.moveTo(panel4)
+  allies.head.moveTo(alliesSide.head)
+  allies(1).moveTo(alliesSide(7))
+  allies(2).moveTo(alliesSide(1))
+  allies(3).moveTo(alliesSide(3))
 
-  dummy5.moveTo(panel10)
-  dummy6.moveTo(panel17)
-  dummy7.moveTo(panel11)
-  dummy8.moveTo(panel13)
-  dummy9.moveTo(panel15)
+  enemies.head.moveTo(enemiesSide.head)
+  enemies(1).moveTo(enemiesSide(7))
+  enemies(2).moveTo(enemiesSide(1))
+  enemies(3).moveTo(enemiesSide(3))
+  enemies(4).moveTo(enemiesSide(5))
 
-  /**
-  * Returns the current game status.
-  * -1 if player 1 is defeated
-  * 1 if player 2 is defeated
-  * 0 if the game is still ongoing
-   */
-  def getGameStatus: Int = {
-    if (p1.isDefeated) {
-      -1
-    } else if (p2.isDefeated) {
-      1
-    } else {
-      0
-    }
-  }
-
-  val w1: Weapon = new Weapon(1, "Excalibur", 10)
-  val w2: Weapon = new Weapon(2, "Sword", 20)
-  val w3: Weapon = new Weapon(3, "Axe", 30)
-  val w4: Weapon = new Weapon(4, "Staff", 40)
-  val w5: Weapon = new Weapon(5, "Wand", 50)
-
-  val weapons = List(w1, w2, w3, w4, w5)
+  val weapons: List[Weapon] = List(
+    new Weapon(1, "Excalibur", 10),
+    new Weapon(2, "Sword", 20),
+    new Weapon(3, "Axe", 30),
+    new Weapon(4, "Staff", 40),
+    new Weapon(5, "Wand", 50)
+  )
 
   def findWeapon(id: Int): Option[Weapon] = weapons.find(_.id == id)
-
 }
 
 object GameState {
