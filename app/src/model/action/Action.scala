@@ -1,9 +1,9 @@
 package model.action
 
-import model.Visualizable
+import model.GameObject
 
-trait Action extends Visualizable {
-
+trait Action extends GameObject {
+  val id: Int
 }
 
 trait ActionOnCharacter extends Action

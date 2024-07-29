@@ -1,6 +1,6 @@
 package model.section
 
-import model.Visualizable
+import model.GameObject
 import model.unit.GameUnit
 
 /**
@@ -12,14 +12,14 @@ import model.unit.GameUnit
  * 1. Build the map: A set of Sections can provide a freely way to represent fixed boards, or open
  * fields.
  *
- * 2. Provide mobility: The movable objects can displace into the designed next mappable objects,
- * giving them moving actions towards a goal or destination.
+ * 2. Provide mobility: The game units can displace into the designed next sections, giving them
+ * moving actions towards a goal or destination.
  *
- * 3. Give effects: A mappable can provide certain effects when a movable object enters, stays or
- * leaves the tile. The cool part is that you can fit these effects to your
- * liking, and by default, there are no effects.
+ * 3. Give effects: A section can provide certain effects when a unit enters, stays or leaves the
+ * section. The cool part is that you can fit these effects to your liking, and by default, there
+ * are no effects.
  */
-trait Section extends Visualizable {
+trait Section extends GameObject {
 
   /**
    * The coordinates of the object in the map. The origin of the coordinates is (1,1) and it's meant
@@ -29,12 +29,12 @@ trait Section extends Visualizable {
   val coordinates: (Int, Int)
 
   /**
-   * The storage of the movable objects in the map.
+   * The storage of the game units in the map.
    */
   var storage: List[GameUnit]
 
   /**
-   * The next mappable objects which a movable object can displace into.
+   * The next objects which a game unit can displace into.
    */
   val next: List[Section]
 }

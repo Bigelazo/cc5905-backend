@@ -1,12 +1,12 @@
 package model.unit
 
-import model.Visualizable
+import model.GameObject
 import model.section.Panel
 import ujson.Obj
 
 import java.lang
 
-class Party(val id: Int, val name: String) extends Visualizable {
+class Party(val id: Int, val name: String) extends GameObject {
 
   var characters: List[Character] = List[Character]()
 

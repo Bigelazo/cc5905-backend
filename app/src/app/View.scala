@@ -3,7 +3,7 @@ package app
 import cask.model.Response
 import controller.GameState
 import model.action.{ActionOnCharacter, ActionOnPanel, ActionOnWeapon}
-import ujson.Obj
+import ujson.{Arr, Obj}
 
 object View extends cask.MainRoutes {
 
@@ -14,9 +14,12 @@ object View extends cask.MainRoutes {
 
   @cask.get("/grid/:id")
   def grid(id: Int): Response[Obj] = {
+
+    val panels = "panels" -> (for (panel <- GameState().findParty(id).get.panels) yield panel.toJson)
+    val units = "units" -> (for (character <- GameState().findParty(id).get.characters) yield character.toJson)
+
     val response = Obj(
-      "panels" -> (for (panel <- GameState().findParty(id).get.panels) yield panel.toJson),
-      "units" -> (for (character <- GameState().findParty(id).get.characters) yield character.toJson)
+
     )
     cask.Response(response, headers = headers)
   }
@@ -29,7 +32,7 @@ object View extends cask.MainRoutes {
   @cask.get("/show-actions/:requesterId")
   def showPossibleActions(requesterId: Int): Response[Obj] = {
     val response = Obj(
-      "actions" -> (for (action <- GameState().currentCharacter.actions) yield action.toJson)
+      "actions" -> (for (action <- GameState().currentCharacter._2.actions) yield action.toJson)
     )
     cask.Response(response, headers = headers)
   }
@@ -45,20 +48,21 @@ object View extends cask.MainRoutes {
         s"${GameState().findCharacter(targetId).get.name}"
       case a: ActionOnPanel =>
         source.doAction(a, GameState().findPanel(targetId).get)
-        s"Panel ${GameState().findPanel(targetId).get.id}"
+        s"Panel ${GameState().findPanel(targetId).get.coordinates}"
       case a: ActionOnWeapon =>
         source.doAction(a, GameState().findCharacter(targetId).get)
         s"${GameState().findCharacter(targetId).get.name}"
       case _ => throw new Exception("Invalid action")
     }
 
-    val idx = GameState().characters.indexWhere(c => c.id == GameState().currentCharacter.id) + 1
-    GameState().currentCharacter = GameState().characters(idx % GameState().characters.length)
+    val nextUnitIndex = GameState().currentCharacter._1 + 1
+    val module = nextUnitIndex % GameState().characters.size
+    GameState().currentCharacter = (module, GameState().characters(module))
 
     cask.Response(
       Obj(
         "message" -> s"${source.name} executed action ${source.findActionById(actionId).getClass.getName} on $msg",
-        "currentUnit" -> GameState().currentCharacter.id
+        "currentUnit" -> GameState().currentCharacter._1
       ),
       headers = headers
     )

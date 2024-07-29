@@ -3,17 +3,17 @@ package model.section
 import model.action.Action
 import model.unit.GameUnit
 import model.{Target, unit}
+import ujson.Obj
 
-class Panel(override val id: Int,
-            override val coordinates: (Int, Int),
+class Panel(override val coordinates: (Int, Int),
             override val next: List[Section] = List()) extends Section with Target {
 
   override var storage: List[GameUnit] = List()
 
-  override def toJson: ujson.Obj = ujson.Obj(
-    "id" -> id,
+  def toJson: ujson.Obj = Obj(
     "x" -> coordinates._1,
-    "y" -> coordinates._2)
+    "y" -> coordinates._2
+  )
 
   override def doAction(action: Action, target: Target): Unit = {}
 

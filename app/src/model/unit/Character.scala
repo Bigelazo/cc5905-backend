@@ -7,13 +7,13 @@ import model.action.spell.{Fireball, Icebolt}
 import model.action.use.Equip
 import model.action.{Action, Punch}
 import model.section.Section
+import ujson.Obj
 
-class Character(val id: Int,
-                val name: String,
+class Character(val name: String,
                 var hp: Int,
                 val attack: Int) extends GameUnit with Target {
 
-  private var img: String =
+  private val img: String =
     if (hp <= 0) name + "_dead.gif"
     else name + ".gif"
 
@@ -25,9 +25,6 @@ class Character(val id: Int,
     new Punch, new Fireball, new Icebolt, new Move, new Equip(List(new Weapon(1, "E", 10)))
   )
 
-  /**
-   * Dado un id de acción, encuentra la acción correspondiente en la lista de acciones.
-   */
   def findActionById(id: Int): Action = {
     val ids = actions.map(a => a.id)
     val actionIndex = ids.indexOf(id)
@@ -60,28 +57,16 @@ class Character(val id: Int,
     this.currentSection = Some(section)
   }
 
-  def toJson: ujson.Obj = {
-    ujson.Obj(
-      "id" -> id,
-      "name" -> name,
-      "hp" -> hp,
-      "attack" -> attack,
-      "img" -> img,
-      "mappableId" -> currentSection.map(_.id)
-    )
-  }
+  def toJson: ujson.Obj = Obj(
+    "name" -> name,
+    "hp" -> hp,
+    "attack" -> attack,
+    "img" -> img
+  )
 
   private def receiveDamage(c: Character): Unit = {
     hp -= c.attack
   }
 
 
-}
-
-class Fighter(id: Int,
-              name: String,
-              hp: Int,
-              attack: Int,
-              img: String = "") extends Character(id, name, hp, attack){
-  override val actions: List[Action] = List(new Punch, new Move)
 }

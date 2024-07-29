@@ -1,13 +1,13 @@
 package model.unit
 
-import model.Visualizable
+import model.GameObject
 import model.section.Section
 
 /**
  * Represents an object that can move around the map of the game. Think of it as character token in
  * monopoly.
  */
-trait GameUnit extends Visualizable {
+trait GameUnit extends GameObject {
 
   /**
    * Represents the current standing position of the movable. If there is no Section in place, it
