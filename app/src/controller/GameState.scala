@@ -6,18 +6,18 @@ import model.unit.{Fighter, Party, Weapon, Character}
 class GameState {
 
   private val allies: List[Character] = List(
-    new Character(1, "Relm", 100, 10, "Relm.gif"),
-    new Fighter(2, "Setzer", 50, 5, "Setzer.gif"),
-    new Character(3, "Terra", 51, 6, "Terra.gif"),
-    new Character(4, "Gogo", 52, 7, "Gogo.gif")
+    new Character(1, "Relm", 100, 10),
+    new Fighter(2, "Setzer", 50, 5),
+    new Character(3, "Terra", 51, 6),
+    new Character(4, "Gogo", 52, 7)
   )
 
   private val enemies: List[Character] = List(
-    new Character(5, "Mag Roader", 53, 8, "Mag Roader.gif"),
-    new Character(6, "Nohrabbit", 54, 9, "Nohrabbit.gif"),
-    new Character(7, "Primordite", 55, 11, "Primordite.gif"),
-    new Character(8, "Wizard", 56, 4, "Wizard.gif"),
-    new Character(9, "Crawly", 57, 3, "Crawly.gif")
+    new Character(5, "Mag Roader", 53, 8),
+    new Character(6, "Nohrabbit", 54, 9),
+    new Character(7, "Primordite", 55, 11),
+    new Character(8, "Wizard", 56, 4),
+    new Character(9, "Crawly", 57, 3)
   )
 
   val characters: List[Character] = allies ++ enemies

@@ -7,7 +7,7 @@ import model.section.Section
  * Represents an object that can move around the map of the game. Think of it as character token in
  * monopoly.
  */
-trait Movable extends Visualizable {
+trait GameUnit extends Visualizable {
 
   /**
    * Represents the current standing position of the movable. If there is no Section in place, it

@@ -11,14 +11,19 @@ import model.section.Section
 class Character(val id: Int,
                 val name: String,
                 var hp: Int,
-                val attack: Int,
-                val img: String = "") extends Movable with Target {
+                val attack: Int) extends GameUnit with Target {
+
+  private var img: String =
+    if (hp <= 0) name + "_dead.gif"
+    else name + ".gif"
 
   var weapon: Option[Weapon] = None
 
   var currentSection: Option[Section] = None
 
-  override val actions: List[Action] = List(new Punch, new Fireball, new Icebolt, new Move, new Equip(List(new Weapon(1, "E", 10))))
+  override val actions: List[Action] = List(
+    new Punch, new Fireball, new Icebolt, new Move, new Equip(List(new Weapon(1, "E", 10)))
+  )
 
   /**
    * Dado un id de acción, encuentra la acción correspondiente en la lista de acciones.
@@ -30,7 +35,6 @@ class Character(val id: Int,
   }
 
   def doAction(action: Action, target: Target): Unit = {
-    //this.actions(actionId).execute(this, target)
     action match {
       case p: Punch => target.receivePunchAction(this)
       case f: Fireball => target.receiveFireballAction(this)
@@ -67,10 +71,6 @@ class Character(val id: Int,
     )
   }
 
-  def attack(c: Character): Unit = {
-    c.receiveDamage(this)
-  }
-
   private def receiveDamage(c: Character): Unit = {
     hp -= c.attack
   }
@@ -82,6 +82,6 @@ class Fighter(id: Int,
               name: String,
               hp: Int,
               attack: Int,
-              img: String = "") extends Character(id, name, hp, attack, img){
+              img: String = "") extends Character(id, name, hp, attack){
   override val actions: List[Action] = List(new Punch, new Move)
 }

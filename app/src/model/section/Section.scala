@@ -1,7 +1,7 @@
 package model.section
 
 import model.Visualizable
-import model.unit.Movable
+import model.unit.GameUnit
 
 /**
  * Represents an object that can be used to build the map of the game. Think of it as a block of
@@ -31,7 +31,7 @@ trait Section extends Visualizable {
   /**
    * The storage of the movable objects in the map.
    */
-  var storage: List[Movable]
+  var storage: List[GameUnit]
 
   /**
    * The next mappable objects which a movable object can displace into.
