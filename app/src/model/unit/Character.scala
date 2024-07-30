@@ -13,7 +13,7 @@ class Character(val name: String,
                 var hp: Int,
                 val attack: Int) extends GameUnit with Target {
 
-  private val img: String =
+  val img: String =
     if (hp <= 0) name + "_dead.gif"
     else name + ".gif"
 
@@ -54,6 +54,7 @@ class Character(val name: String,
   }
 
   override def moveTo(section: Section): Unit = {
+    section.storage = this :: section.storage
     this.currentSection = Some(section)
   }
 

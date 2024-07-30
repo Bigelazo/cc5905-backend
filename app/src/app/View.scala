@@ -3,6 +3,7 @@ package app
 import cask.model.Response
 import controller.GameState
 import model.action.{ActionOnCharacter, ActionOnPanel, ActionOnWeapon}
+import model.section.Panel
 import ujson.{Arr, Obj}
 
 object View extends cask.MainRoutes {
@@ -12,15 +13,11 @@ object View extends cask.MainRoutes {
     "Content-Type" -> "application/json"
   )
 
-  @cask.get("/grid/:id")
-  def grid(id: Int): Response[Obj] = {
+  @cask.get("/grid/:playerId")
+  def grid(playerId: Int): Response[Obj] = {
+    val selectedPlayer = GameState().findPlayer(playerId).get
 
-    val panels = "panels" -> (for (panel <- GameState().findParty(id).get.panels) yield panel.toJson)
-    val units = "units" -> (for (character <- GameState().findParty(id).get.characters) yield character.toJson)
-
-    val response = Obj(
-
-    )
+    val response = selectedPlayer.toJson
     cask.Response(response, headers = headers)
   }
 

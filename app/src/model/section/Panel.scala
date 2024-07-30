@@ -12,7 +12,8 @@ class Panel(override val coordinates: (Int, Int),
 
   def toJson: ujson.Obj = Obj(
     "x" -> coordinates._1,
-    "y" -> coordinates._2
+    "y" -> coordinates._2,
+    "storage" -> storage.map(_.toJson)
   )
 
   override def doAction(action: Action, target: Target): Unit = {}
