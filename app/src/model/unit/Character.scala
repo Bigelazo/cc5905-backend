@@ -25,6 +25,12 @@ class Character(val name: String,
     new Punch, new Fireball, new Icebolt, new Move, new Equip(List(new Weapon(1, "E", 10)))
   )
 
+  def this(name: String, hp: Int, attack: Int, weapon: Weapon) {
+    this(name, hp, attack)
+    this.weapon = Some(weapon)
+  }
+
+
   def findActionById(id: Int): Action = {
     val ids = actions.map(a => a.id)
     val actionIndex = ids.indexOf(id)
